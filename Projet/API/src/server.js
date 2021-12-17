@@ -7,14 +7,19 @@ const bodyParser = require('body-parser');
 // Import de nos objets
 const bookRoutes = require('./api/routes/bookRoutes');
 const userRoutes = require('./api/routes/userRoutes');
+const copyRoutes = require('./api/routes/copyRoutes');
+const loanRoutes = require('./api/routes/loanRoutes');
 
 const BookController = require('./api/controllers/bookController');
 const UserController = require('./api/controllers/userController');
+const LoanController = require('./api/controllers/loanController');
+const CopyController = require('./api/controllers/copyController');
 const UserRepository = require('./repositories/userRepository');
 const BookRepository = require('./repositories/bookRepository');
 const CopyRepository = require('./repositories/copyRepository');
-const CopyController = require('./api/controllers/copyController');
-const copyRoutes = require('./api/routes/copyRoutes');
+const LoanRepository = require('./repositories/loanRepository');
+
+
 
 // Création de nos objets
 const db = new JsonDB("./data/library", true, true);
@@ -24,6 +29,8 @@ const userRepository = new UserRepository(db);
 const userController = new UserController(userRepository);
 const copyRepository = new CopyRepository(db, bookRepository);
 const copyController = new CopyController(copyRepository);
+const loanRepository = new LoanRepository(db);
+const loanController = new LoanController(loanRepository);
 
 // Création du serveur
 const app = express();
@@ -34,7 +41,7 @@ app.use(cors());
 bookRoutes(app, bookController);
 userRoutes(app, userController);
 copyRoutes(app, copyController);
-/* A compléter */
+loanRoutes(app, loanController);
 
 function errorHandler(err, req, res, next) {
     console.error(err);
