@@ -45,9 +45,13 @@ class LoanRepository {
             this.db.delete(path);
     }
 
+    getLoansUser(userId) {
+        const loans = this.getAll();
+        return _.filter(loans, { userId });
+    }  
+
     getIdPath(copyId) {
         const loans = this.getAll();
-        console.log('Debug ' + JSON.stringify(loans));
         const index = _.findIndex(loans, { copyId });
         if (index == -1)
             return null;

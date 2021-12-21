@@ -9,7 +9,8 @@ class LoanController {
     }
 
     getLoansUser(req, res) {
-        const loans = this.loanRepository.getLoansUser();
+        const loans = this.loanRepository.getLoansUser(req.params.id);
+        
         res.json(loans);
     }
 
@@ -20,7 +21,6 @@ class LoanController {
     }
 
     delete(req, res) {
-        console.log("[Debug] " + req.params.copyId);
         this.loanRepository.delete(req.params.copyId);
         res.status(204).send(null);
     }
