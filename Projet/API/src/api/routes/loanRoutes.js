@@ -10,4 +10,7 @@ module.exports = function(app, loanController) {
     //          Cette route est elle au bon emplacement ?
     app.route('/users/:id/loans')
         .get(loanController.getLoansUser.bind(loanController));
+
+    app.route('/books/:id/availableCopies')
+        .get(loanController.getAvailableCopies.bind(loanController));
 }

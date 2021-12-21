@@ -10,8 +10,12 @@ class LoanController {
 
     getLoansUser(req, res) {
         const loans = this.loanRepository.getLoansUser(req.params.id);
-        
         res.json(loans);
+    }
+
+    getAvailableCopies(req, res) {
+        const copies = this.loanRepository.getAvailableCopies(req.params.id);
+        res.json(copies);
     }
 
     create(req, res) {
@@ -24,6 +28,7 @@ class LoanController {
         this.loanRepository.delete(req.params.copyId);
         res.status(204).send(null);
     }
+
 }
 
 module.exports = LoanController;

@@ -50,6 +50,12 @@ class LoanRepository {
         return _.filter(loans, { userId });
     }  
 
+    getAvailableCopies(bookId) {
+        const loans = this.getAll();
+        const copies = this.copyRepository.getAll(bookId);
+        return _.filter(copies, ({ bookId }) => !_.some(loans, { copyId: bookId })); 
+    }
+
     getIdPath(copyId) {
         const loans = this.getAll();
         const index = _.findIndex(loans, { copyId });
