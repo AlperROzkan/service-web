@@ -11,7 +11,7 @@ class CopyRepository {
     getAll(bookId) {
         const bookPath = this.bookRepository.getIdPath(bookId);
         if (bookPath == null) {
-            throw new ValidationError('This book does not exists')
+            throw new ValidationError('This book does not exist')
         }
         return this.db.getData(bookPath + '/copies');
     }
@@ -30,8 +30,6 @@ class CopyRepository {
     add(bookId, copy) {
         copy.id = uuid();
         const bookIndex = this.bookRepository.getIdPath(bookId);
-        
-        console.log("Debug : " + bookIndex);
         this.db.push(bookIndex + "/copies[]", copy);
 
         return copy;

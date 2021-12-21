@@ -39,7 +39,7 @@ class BookRepository {
         checkBook(book); 
         const path = this.getIdPath(id);
         if (path == null) {
-            throw new ValidationError('This book does not exists');
+            throw new ValidationError('This book does not exist');
         }
 
         this.db.push(path, book);
