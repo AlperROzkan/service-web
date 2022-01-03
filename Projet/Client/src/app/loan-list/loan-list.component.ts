@@ -58,16 +58,12 @@ export class LoanListComponent implements OnInit {
     );
 
     console.log("loans récupérés")
-    console.log(this.loans)
+    console.log(this.loansInfos)
   }
 
   public returnCopy(copyId){
     this.loanService.return(copyId)
-    .pipe(
-      //pas convaincu
-      tap(() => this.router.navigateByUrl('/users'))
-    )
-    .subscribe();
+    .subscribe(()=>this.router.navigateByUrl('/books'));
   }
 
   public getBookName(bookId){

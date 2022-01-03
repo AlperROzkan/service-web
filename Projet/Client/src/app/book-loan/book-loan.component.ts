@@ -34,8 +34,8 @@ export class BookLoanComponent implements OnInit {
   ngOnInit() {
     this.bookId = this.route.snapshot.paramMap.get('bookId');
     this.book$ = this.bookService.get(this.bookId);
-    this.copies$ = this.copyService.getAll(this.bookId);
-    // true -> this.copies$ = this.copyService.getAvailable(this.bookId);
+    //this.copies$ = this.copyService.getAll(this.bookId);
+    this.copies$ = this.copyService.getAvailable(this.bookId);
   }
 
   public async loan(copyId: string) {
@@ -48,10 +48,7 @@ export class BookLoanComponent implements OnInit {
 
     if (event.user && event.isValidated) {
       this.loanService.loan(this.bookId, this.loanCopyId, event.user.id)
-        .pipe(
-          tap(() => this.router.navigateByUrl('/users'))
-        )
-        .subscribe();
+        .subscribe(() => this.router.navigateByUrl('/loans'));
     }
 
     this.loanCopyId = null;
