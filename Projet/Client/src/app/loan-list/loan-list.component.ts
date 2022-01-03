@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, first } from 'rxjs/operators';
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -7,6 +7,13 @@ import { Loan } from '../model/loan';
 import { LoanService } from '../services/loan.service';
 import { UserService } from '../services/user.service';
 import { BookService } from '../services/book.service';
+import { repeat } from 'lodash';
+import { CopyService } from '../services/copy.service';
+
+interface LoanInfo extends Loan {
+  username: string,
+  bookname: string
+}
 
 @Component({
   selector: 'app-loan-list',
@@ -15,11 +22,14 @@ import { BookService } from '../services/book.service';
 })
 export class LoanListComponent implements OnInit {
   public loans$: Observable<Loan[]>;
+  public loans: Loan[];
+  public loansInfos : LoanInfo[];
 
   constructor(
     private loanService:LoanService,
     private userService:UserService,
     private bookService:BookService,
+    private copyService:CopyService,
     private router: Router
   ) { }
 
@@ -28,9 +38,27 @@ export class LoanListComponent implements OnInit {
   }
 
   public init() {
-    this.loans$ = this.loanService.getAll();
+    this.loanService.getAll()
+    .pipe(first(),
+    tap(console.log)
+    )
+    .subscribe(
+      res => {
+        this.loansInfos = res as LoanInfo[];
+        this.loansInfos.forEach(
+          loan => {
+            this.copyService.getBook(loan.copyId).subscribe(
+              book => loan.bookname = book.name
+            )
+            this.getUserName(loan.userId).subscribe( (name) => loan.username = name);
+          }
+        )
+
+      }
+    );
+
     console.log("loans récupérés")
-    console.log(this.loans$)
+    console.log(this.loans)
   }
 
   public returnCopy(copyId){
@@ -43,14 +71,17 @@ export class LoanListComponent implements OnInit {
   }
 
   public getBookName(bookId){
-    return this.bookService.get(bookId).pipe(
-      tap((book)=>book.name)//pas testé, marche probablement pas
-    )
+    return this.bookService.get(bookId)
+    .pipe(
+      first(),
+      map(book=>book.name)
+    );
   }
 
   public getUserName(userId){
-    return this.userService.get(userId).pipe(
-      tap((user)=>user.name)//same
-    )
+    return this.userService.get(userId)
+    .pipe(first(),
+    map(user => user.name)
+    );
   }
 }

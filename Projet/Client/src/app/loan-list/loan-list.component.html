@@ -1,5 +1,3 @@
-<p>loan-list works!</p>
-
 <button
   class="btn btn-primary mb-3"
   (click)="init()">
@@ -8,19 +6,19 @@
 
 <div
   class="row"
-  *ngIf="loans$ | async as loans"
+  *ngIf="loansInfos"
 >
   <div
-    *ngFor="let loan of loans"
+    *ngFor="let loan of loansInfos"
     class="col-lg-6"
   >
     <div class="card mb-3">
       <h4 class="card-header">
-        {{getBookName(loan.bookId)}}
+        {{loan.bookname}}
       </h4>
       <div class="card-body">
         <h5 class="card-title">User</h5>
-        <p class="card-text">{{getUserName(loan.userId)}}</p>
+        <p class="card-text">{{loan.username}}</p>
 
         <h5 class="card-title">Copy id</h5>
         <p class="card-text"> {{loan.copyId}}</p>
@@ -29,7 +27,7 @@
         <p class="card-text">{{loan.loanDate}}</p>
 
         <a
-          (click)="returnCopy({{loan.copyId}})"
+          (click)="returnCopy(loan.copyId)"
           class="btn btn-outline-primary"
         >
         Return

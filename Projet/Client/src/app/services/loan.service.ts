@@ -10,8 +10,8 @@ import { Loan } from '../model/loan';
 export class LoanService extends BaseHttpService {
   public loan(bookId, copyId, userId): Observable<void> {
     return this.http
-    // 4 parametres : bookId, copyId, userId, loanDate (j'ai rajouté le book)
-    .post(`${this.baseUrl}/loans`,{bookId: `${bookId}`,copyId: `${copyId}`, userId: `${userId}`, loanDate: '2021/12/15'})
+    // 4 parametres : bookId, copyId, userId, loanDate
+    .post(`${this.baseUrl}/loans`,{copyId: `${copyId}`, userId: `${userId}`, loanDate: '2021/12/15'})
     .pipe(
       map(() => null),
       catchError((err) => { console.log(err); return null; })
