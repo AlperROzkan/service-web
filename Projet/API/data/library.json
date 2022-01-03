@@ -31,7 +31,16 @@
             "name": "La ferme de animaux",
             "author": "George Orwell",
             "id": "6cbc92e0-da86-11e7-b397-fd0e15229f62",
-            "copies": []
+            "copies": [
+                {
+                    "submissionDate": "2021/12/12",
+                    "id": "b676863c-e212-459e-ac90-11b6eea5f1e6"
+                },
+                {
+                    "submissionDate": "2021/12/12",
+                    "id": "04c7f70c-62dd-4c0b-abc0-e637c12ad109"
+                }
+            ]
         },
         {
             "name": "Assassin Apprentice",

@@ -23,6 +23,15 @@ class CopyController {
         }
     }
 
+    getBookFromCopyId(req, res) {
+        const book = this.copyRepository.getBookFromCopyId(req.params.copyId);
+        if (book == null) {
+            res.status(404).send(null);
+        } else {
+            res.status(200).send(book);
+        }
+    }
+
     update(req, res) {
         const copy = this.copyRepository.update(req.params.bookId, req.params.id, req.body);
         res.status(200).send(copy);
