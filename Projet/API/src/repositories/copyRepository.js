@@ -40,6 +40,17 @@ class CopyRepository {
         return _.find(copies, { id });
     }
 
+    /**
+     * Recupère un livre id a partir d'une copy id
+     * @param {*} copyId 
+     */
+     getBookFromCopyId(copyId) {
+        return this.bookRepository
+            .getAll()
+            .find(book => book.copies.map(copy => copy.id)
+            .includes(copyId));
+    }
+
     update(bookId, id, copy) {
         if (copy.id !== id)
             throw new ValidationError('You cannot change the id.');
